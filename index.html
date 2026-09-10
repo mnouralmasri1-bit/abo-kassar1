@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#11161c">
+<title>أبو كسار</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="login" class="login">
+  <div class="login-car"><img src="assets/mercedes-car.jpg" alt="Mercedes"></div>
+  <div class="login-mid">
+    <img class="brand" src="assets/mercedes-brand.jpg" alt="Mercedes">
+    <div class="login-box">
+      <h2>تسجيل الدخول</h2>
+      <p class="login-sub">نظام إدارة أبو كسار</p>
+      <label>اسم المستخدم<input id="user" autocomplete="username" placeholder="اسم المستخدم"></label>
+      <label>كلمة المرور<div class="passwrap"><input id="pass" type="password" autocomplete="current-password" placeholder="كلمة المرور"><button type="button" id="showPass" aria-label="إظهار كلمة المرور">◉</button></div></label>
+      <label class="remember"><input id="remember" type="checkbox"> تذكرني</label>
+      <button id="loginBtn" class="silver primary">تسجيل الدخول</button>
+      <p id="err" class="error"></p>
+    </div>
+    <div class="features"><span>⚙<b>إدارة سهلة</b></span><span>⚒<b>خدمة مميزة</b></span><span>✦<b>ثقة وضمان</b></span></div>
+  </div>
+  <div class="login-side"><img src="assets/mercedes-emblem.jpg" alt="Mercedes emblem"></div>
+</div>
+
+<div id="app" class="hidden">
+  <aside>
+    <div class="sidebrand"><img src="assets/mercedes-brand.jpg" alt="Logo"><div><b>أبو كسار</b><small>نظام إدارة المحل</small></div></div>
+    <button class="nav active" data-page="home">⌂ <span>الرئيسية</span></button>
+    <button class="nav" data-page="cars">🚘 <span>السيارات</span></button>
+    <button class="nav" data-page="add">＋ <span>إضافة سيارة</span></button>
+    <button class="nav" data-page="customers">♟ <span>العملاء</span></button>
+    <button class="nav" data-page="invoices">▤ <span>الفواتير</span></button>
+    <button class="nav" data-page="reports">▥ <span>التقارير</span></button>
+    <button class="nav" data-page="settings">⚙ <span>الإعدادات</span></button>
+    <button id="logout" class="nav logout">⇥ <span>تسجيل خروج</span></button>
+  </aside>
+
+  <section class="main">
+    <header><div><img src="assets/mercedes-brand.jpg" alt="Logo"><b>أبو كسار - جميع أنواع السيارات الحديثة</b></div><span>👤 <strong id="headerUser">-</strong></span></header>
+    <main>
+      <section id="home" class="page">
+        <div class="main-home-search">
+          <div><small>بحث سريع</small><h2>ابحث عن ملف سيارة</h2><p>باللوحة أو رقم الهاتف أو الشاصي أو اسم الزبون</p></div>
+          <div class="main-home-search-box"><input id="homeSearch" placeholder="رقم السيارة / الهاتف / الشاصي / اسم الزبون..."><button id="homeSearchBtn" class="silver">⌕ بحث</button></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><span>السيارات</span><b id="carsCount">0</b><small>ملفات السيارات</small></div>
+          <div class="stat"><span>العملاء</span><b id="customersCount">0</b><small>عملاء مسجلون</small></div>
+          <div class="stat"><span>الفواتير</span><b id="invoicesCount">0</b><small>فواتير محفوظة</small></div>
+          <div class="stat revenue-card"><span>الإيرادات</span><b id="revenue">0</b><small>إجمالي الفواتير</small><button id="homeCostToggle" class="eye-btn">◉ إخفاء الإيرادات</button></div>
+        </div>
+        <div class="grid two">
+          <div class="panel"><div class="panel-title"><h3>آخر السيارات</h3><button class="outline" data-page="cars">عرض الكل</button></div><div id="recent"></div></div>
+          <div class="panel"><div class="panel-title"><h3>ملخص العمل</h3></div><div id="homeSummary" class="summary-list"></div></div>
+        </div>
+        <footer><div>⌖ <b>العنوان</b><small>حماة - المنطقة الصناعية</small></div><div>☎ <b>الهاتف</b><small>0955991989</small></div><div>◷ <b>أوقات العمل</b><small>من 8:00 صباحاً - حتى 7:00 مساءً</small></div></footer>
+      </section>
+
+      <section id="cars" class="page hidden">
+        <div class="head"><div><h2>ملفات السيارات</h2><p class="muted">ابحث عن السيارة بكل معلوماتها وتاريخ صيانتها.</p></div><button class="silver" data-page="add">＋ إضافة سيارة</button></div>
+        <div class="toolbar"><input id="search" placeholder="ابحث باللوحة، الهاتف، الشاصي، اسم الزبون، الماركة أو الموديل..."><button id="costs" class="outline">◉ إخفاء التكاليف</button><button id="backup" class="outline">↓ نسخة احتياطية</button></div>
+        <div id="list" class="carlist"></div>
+      </section>
+
+      <section id="add" class="page hidden">
+        <div class="head"><div><h2 id="formTitle">إضافة سيارة جديدة</h2><p class="muted">أنشئ ملف السيارة والفاتورة الخاصة بها.</p></div></div>
+        <form id="form" class="form">
+          <input id="id" type="hidden"><input id="invoiceNo" type="hidden">
+          <label>رقم السيارة / اللوحة *<input id="plate" required></label>
+          <label>رقم الشاصي VIN *<input id="vin" required></label>
+          <label>الماركة<input id="make" value="Mercedes"></label>
+          <label>الموديل<input id="model"></label>
+          <label>سنة الصنع<input id="year" type="number"></label>
+          <label>عداد السيارة<input id="odo" type="number" min="0"></label>
+          <label>تاريخ ووقت التسجيل<input id="createdAt" type="datetime-local"></label>
+          <label>اسم العميل<input id="owner"></label>
+          <label>رقم الهاتف<input id="phone" inputmode="tel"></label>
+          <label class="full">القطع والأعمال التي تم تنفيذها<textarea id="parts" placeholder="اكتب كل قطعة أو عمل في سطر مستقل"></textarea></label>
+          <label>تكلفة القطع<input id="pc" type="number" min="0" value="0"></label>
+          <label>أجرة التصليح<input id="lc" type="number" min="0" value="0"></label>
+          <div class="total full">الإجمالي <b id="total">0</b> ل.س</div>
+          <div class="full actions"><button type="button" id="clear" class="outline">إلغاء</button><button class="silver">حفظ بيانات السيارة</button></div>
+        </form>
+      </section>
+
+      <section id="customers" class="page hidden">
+        <div class="head"><div><h2>العملاء</h2><p class="muted">أسماء الزبائن ومعلومات التواصل والسيارات المرتبطة بكل عميل.</p></div><button id="printCustomers" class="outline">🖨 طباعة العملاء</button></div>
+        <div class="toolbar"><input id="customerSearch" placeholder="ابحث باسم العميل أو الهاتف أو اللوحة أو الشاصي..."></div>
+        <div class="panel" id="custList"></div>
+      </section>
+
+      <section id="invoices" class="page hidden">
+        <div class="head"><div><h2>الفواتير</h2><p class="muted">ابحث عن الفاتورة برقمها أو السيارة أو الهاتف أو الشاصي أو اسم الزبون.</p></div><button class="silver" data-page="add">＋ فاتورة / سيارة</button></div>
+        <div class="toolbar"><input id="invoiceSearch" placeholder="رقم الفاتورة / السيارة / الهاتف / الشاصي / اسم الزبون..."><button id="invoiceCostToggle" class="outline">◉ إخفاء التكاليف</button></div>
+        <div class="panel" id="invList"></div>
+      </section>
+
+      <section id="reports" class="page hidden">
+        <div class="head"><div><h2>نموذج التقرير</h2><p class="muted">صفحة تقرير جاهزة للكتابة وإضافة القطع والأنواع والأسعار ثم طباعتها على A4.</p></div><button id="printReport" class="silver">🖨 طباعة التقرير</button></div>
+        <div class="report-paper" id="reportPaper">
+          <div class="report-header">
+            <div class="report-brand"><img src="assets/mercedes-print-logo.png" alt="شعار المحل"><div><h1 id="reportShopName">أبو كسار</h1><p>جميع أنواع السيارات الحديثة</p></div></div>
+            <div id="reportShopMeta">حماة - المنطقة الصناعية<br>0955991989</div>
+          </div>
+          <div class="report-form-grid">
+            <label>عنوان التقرير<input id="reportTitle" value="تقرير صيانة / أعمال الورشة"></label>
+            <label>التاريخ<input id="reportDate" type="date"></label>
+            <label>اسم العميل<input id="reportCustomer" placeholder="اكتب اسم الزبون"></label>
+            <label>رقم السيارة / اللوحة<input id="reportPlate" placeholder="اكتب رقم السيارة"></label>
+            <label>رقم الهاتف<input id="reportPhone" placeholder="اكتب رقم الهاتف"></label>
+            <label>رقم الشاصي VIN<input id="reportVin" placeholder="اكتب رقم الشاصي"></label>
+            <label>اسم المعدّ<input id="reportAuthor" placeholder="اكتب اسم المسؤول"></label>
+          </div>
+          <div class="report-writing"><label>تفاصيل التقرير / الكتابة<textarea id="reportText" placeholder="اكتب هنا تفاصيل العمل، وصف العطل، الأعمال المنجزة أو أي نص تريد ظهوره في التقرير..."></textarea></label></div>
+          <div class="report-items-head"><h3>القطع والخدمات والأسعار</h3><button id="addReportItem" type="button" class="outline">＋ إضافة خانة</button></div>
+          <div class="report-items-wrap"><table class="report-items-table"><thead><tr><th>النوع</th><th>القطعة / الخدمة</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th><th class="no-print">إجراء</th></tr></thead><tbody id="reportItems"></tbody></table></div>
+          <div class="report-total-box"><span>إجمالي التقرير</span><b id="reportGrandTotal">0 ل.س</b></div>
+          <div class="report-sign"><span>توقيع المسؤول: __________________</span><span>الختم: __________________</span></div>
+        </div>
+      </section>
+
+      <section id="settings" class="page hidden">
+        <div class="head"><div><h2>الإعدادات</h2><p class="muted">إدارة حسابك والمستخدمين.</p></div></div>
+        <div class="settings-grid">
+          <div class="panel"><h3>حسابي</h3><form id="accountForm" class="settings-form"><label>اسم المستخدم<input id="accountUsername" required></label><label>كلمة المرور الحالية<input id="currentPassword" type="password" required></label><label>كلمة المرور الجديدة<input id="newPassword" type="password" placeholder="اتركها فارغة إذا لا تريد تغييرها"></label><label>تأكيد كلمة المرور الجديدة<input id="confirmPassword" type="password"></label><button class="silver">حفظ بيانات الحساب</button></form></div>
+          <div class="panel" id="usersPanel"><div class="panel-title"><h3>المستخدمون</h3><button id="addUserBtn" class="silver">＋ إضافة مستخدم</button></div><div id="usersList"></div><p id="usersHint" class="muted"></p></div>
+        </div>
+        <div class="panel shop-settings"><h3>بيانات المحل</h3><div class="shop-grid"><label>اسم المحل<input id="shopName" value="أبو كسار"></label><label>العنوان<input id="shopAddress" value="حماة - المنطقة الصناعية"></label><label>الهاتف<input id="shopPhone" value="0955991989"></label><label>أوقات العمل<input id="shopHours" value="من 8:00 صباحاً - حتى 7:00 مساءً"></label></div><button id="saveShop" class="silver">حفظ بيانات المحل</button></div>
+      </section>
+    </main>
+  </section>
+</div>
+
+<div id="userModal" class="modal hidden"><div class="modal-card"><div class="panel-title"><h3>إضافة مستخدم</h3><button id="closeUserModal" class="icon-btn">×</button></div><form id="userForm" class="settings-form"><label>اسم المستخدم<input id="newUsername" required></label><label>كلمة المرور<input id="newUserPassword" type="password" required></label><label>الصلاحية<select id="newUserRole"><option value="user">موظف</option><option value="admin">مدير</option></select></label><div class="actions"><button type="button" id="cancelUser" class="outline">إلغاء</button><button class="silver">إضافة المستخدم</button></div></form></div></div>
+<div id="toast"></div><div id="printArea" class="hidden"></div>
+<script src="js/app.js"></script>
+</body>
+</html>
