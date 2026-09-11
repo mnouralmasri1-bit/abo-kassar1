@@ -1,0 +1,61 @@
+/* Screen layout only; printed invoices keep their existing page layout. */
+@media screen {
+ html{scroll-padding-top:80px}
+ .main,main,.page,.panel,.car,.stat,.grid>*,.settings-grid>*,.form>*,.shop-grid>*,.main-home-search>*,.client>*,.inv>*,.report-paper{min-width:0}
+ input,textarea,select{max-width:100%}
+ button{touch-action:manipulation}
+ .car h3,.client h3,.inv strong,.record-author,.sidebrand b{overflow-wrap:anywhere}
+ .head,.panel-title,.car-top,.report-items-head,.user-row{gap:12px}
+ .head,.panel-title,.report-items-head,.inv-actions,.actions{flex-wrap:wrap}
+ .toolbar input,.main-home-search-box input{min-width:0}
+ .actions button{min-height:42px}
+ .report-paper{width:100%}
+ .report-items-wrap,.report-table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .modal{overflow-y:auto;padding:20px;overscroll-behavior:contain}
+ .modal-card{max-height:calc(100dvh - 40px);overflow-y:auto}
+ .menu-toggle{display:none}
+ .nav-shade{display:none}
+ #toast{max-width:calc(100vw - 32px);overflow-wrap:anywhere}
+ button:focus-visible,a:focus-visible{outline:2px solid #8dcfff;outline-offset:3px}
+ @media(min-width:751px){aside{overflow-y:auto;padding-bottom:76px}.nav.logout{position:relative;bottom:auto;width:100%;margin-top:24px}header{gap:16px}header>div{min-width:0}}
+ @media(min-width:751px) and (max-width:1100px){main{padding:20px}.main-home-search{flex-wrap:wrap}.main-home-search-box{width:100%}.head{align-items:flex-start}.carlist{grid-template-columns:1fr}.report-paper{padding:22px}}
+ @media(max-width:750px){
+ body.nav-open{overflow:hidden}
+ #app>aside{width:min(290px,85vw);padding:20px 14px;z-index:41;transform:translateX(105%);visibility:hidden;transition:transform .2s ease,visibility .2s;overflow-y:auto;padding-bottom:max(24px,env(safe-area-inset-bottom))}
+ body.nav-open #app>aside{transform:translateX(0);visibility:visible}
+ .sidebrand{justify-content:flex-start}.sidebrand div,.nav span{display:block}
+ .nav{justify-content:flex-start;padding:13px 12px;min-height:48px;font-size:15px}
+ .nav.logout{position:relative;bottom:auto;width:100%;margin-top:20px}
+ .nav-shade{position:fixed;inset:0;z-index:40;background:#0009;border:0;border-radius:0}
+ body.nav-open .nav-shade{display:block}
+ .main{margin-right:0;width:100%}
+ header{height:auto;min-height:64px;padding:10px 14px;gap:12px}
+ header>div{gap:9px;min-width:0}header b{display:none}header span{font-size:12px;overflow-wrap:anywhere}
+ .menu-toggle{display:inline-flex;justify-content:center;align-items:center;flex-shrink:0;width:44px;height:44px;background:#202a34;border:1px solid #425263;color:#fff;border-radius:9px;font-size:23px}
+ main{padding:16px 12px 28px}
+ .head{align-items:flex-start}.head h2{font-size:21px}.head>button{min-height:44px}
+ .main-home-search{padding:17px;gap:14px}.main-home-search h2{font-size:20px;line-height:1.5}
+ .main-home-search-box{width:100%;gap:7px}.main-home-search-box button{padding:10px;white-space:nowrap}
+ .toolbar{flex-wrap:wrap}.toolbar input{width:100%;flex:1 1 100%}.toolbar button{min-height:44px;flex:1 1 auto}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{padding:14px}.stat b{font-size:23px;overflow-wrap:anywhere}.stat span{font-size:12px}
+ .grid.two,.settings-grid,.carlist{grid-template-columns:minmax(0,1fr)}
+ .form{grid-template-columns:minmax(0,1fr);padding:16px;gap:16px}.full{grid-column:auto}
+ .form label,.settings-form label,.shop-grid label,.report-form-grid label{font-size:14px}
+ .form input,.form textarea,.settings-form input,.settings-form select,.shop-grid input,.report-form-grid input,.report-note-label textarea,.report-writing textarea,.report-items-table input,.toolbar input,.main-home-search-box input,#login input:not([type=checkbox]){font-size:16px;min-height:44px}
+ .form textarea{min-height:120px}.car-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.car-grid span{font-size:11px}.car-grid b{font-size:13px;overflow-wrap:anywhere}
+ .car-top{flex-wrap:wrap}.plate{max-width:100%;overflow-wrap:anywhere}.chip{font-size:12px}.vin{font-size:12px}
+ .actions{gap:8px}.actions button{flex:1 1 100px;min-width:0;font-size:13px}
+ .client,.inv{gap:12px;align-items:stretch}.client-main{min-width:0}.client-main>div:last-child{min-width:0}.avatar{flex-shrink:0}.client p,.client small,.inv small{font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+ .customer-cars{justify-content:flex-start}.customer-cars button,.inv-actions button{min-height:44px;font-size:12px}
+ .inv-actions{gap:8px}.inv-actions>strong{width:100%;font-size:16px}.inv-actions button{flex:1}
+ .recentrow{flex-wrap:wrap;gap:8px}.recentrow span{flex:1 1 160px}.recentrow small{font-size:11px}
+ .shop-grid{grid-template-columns:minmax(0,1fr)}.user-row{flex-wrap:wrap}.user-row button{min-height:44px}
+ .report-paper{padding:16px}.report-header{gap:14px}.report-brand{gap:10px}.report-brand h1{font-size:23px}.report-brand p{font-size:12px}.report-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.report-items-table{min-width:720px}.report-sign{gap:20px;flex-wrap:wrap}
+ footer{padding:12px}footer b{font-size:12px}footer small{font-size:11px}
+ .modal{padding:14px}.modal-card{padding:18px;max-height:calc(100dvh - 28px)}
+ #toast{left:16px;bottom:max(16px,env(safe-area-inset-bottom));font-size:14px}
+ }
+ @media(max-width:360px){.stats,.report-form-grid{grid-template-columns:minmax(0,1fr)}.main-home-search-box{flex-wrap:wrap}.main-home-search-box input{flex-basis:100%}.main-home-search-box button{width:100%}#login .login-box{padding:23px 18px}}
+ @media(prefers-reduced-motion:reduce){#app>aside{transition:none}.page{animation:none}}
+}
+@media print{.menu-toggle,.nav-shade{display:none!important}}
