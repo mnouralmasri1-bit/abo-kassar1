@@ -12,11 +12,14 @@ const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-production';
 
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
-app.use(express.static(path.join(__dirname)));
+app.use('/css', express.static(path.join(__dirname,'css')));
+app.use('/js', express.static(path.join(__dirname,'js')));
+app.use('/assets', express.static(path.join(__dirname,'assets')));
 
 const carSchema = new mongoose.Schema({
   id: { type: String, unique: true, index: true }, invoiceNo: String, plate: String, vin: String,
   make: String, model: String, year: String, odo: String, owner: String, phone: String,
+  createdById: String, createdByName: String, lastEditedById: String, lastEditedByName: String,
   parts: String, pc: Number, lc: Number, createdAt: String, dateISO: String, date: String
 }, { timestamps: true });
 const userSchema = new mongoose.Schema({
@@ -71,14 +74,30 @@ app.put('/api/me', auth, async (req,res)=>{
   } catch(e){ res.status(500).json({message:'تعذر حفظ بيانات الحساب'}); }
 });
 
-app.get('/api/cars', auth, async (req,res)=>res.json(await Car.find().sort({createdAt:-1,_id:-1}).lean()));
+function visibleCar(car, user){
+  const data=car.toObject ? car.toObject() : {...car};
+  if(user.role!=='admin') for(const key of ['pc','lc','createdById','createdByName','lastEditedById','lastEditedByName']) delete data[key];
+  return data;
+}
+app.get('/api/cars', auth, async (req,res)=>res.json((await Car.find().sort({createdAt:-1,_id:-1}).lean()).map(c=>visibleCar(c,req.user))));
 app.post('/api/cars', auth, async (req,res)=>{
   try {
-    const c = {...req.body};
-    if(!c.id) c.id='car-'+Date.now();
+    const input=req.body||{}, c={};
+    const fields=['invoiceNo','plate','vin','make','model','year','odo','owner','phone','parts','createdAt','dateISO','date'];
+    for(const key of fields) if(input[key]!==undefined) c[key]=String(input[key]);
+    if(req.user.role==='admin') for(const key of ['pc','lc']) if(input[key]!==undefined){
+      const value=Number(input[key]);
+      if(!Number.isFinite(value)||value<0) return res.status(400).json({message:'قيمة مالية غير صالحة'});
+      c[key]=value;
+    }
+    const id=String(input.id||('car-'+require('crypto').randomUUID()));
     if(!c.plate || !c.vin) return res.status(400).json({message:'أدخل رقم السيارة ورقم الشاصي'});
-    const saved = await Car.findOneAndUpdate({id:c.id}, c, {new:true, upsert:true, setDefaultsOnInsert:true});
-    res.json(saved);
+    c.lastEditedById=req.user.id; c.lastEditedByName=req.user.username;
+    const saved=await Car.findOneAndUpdate({id}, {
+      $set:c,
+      $setOnInsert:{id,createdById:req.user.id,createdByName:req.user.username}
+    }, {new:true,upsert:true,setDefaultsOnInsert:true,runValidators:true});
+    res.json(visibleCar(saved,req.user));
   } catch(e){ res.status(500).json({message:'تعذر حفظ السيارة'}); }
 });
 app.delete('/api/cars/:id', auth, async (req,res)=>{ await Car.deleteOne({id:req.params.id}); res.json({ok:true}); });
@@ -98,10 +117,10 @@ app.delete('/api/users/:id', auth, adminOnly, async (req,res)=>{ if(req.params.i
 const defaultShop={name:'أبو كسار',address:'حماة - المنطقة الصناعية',phone:'0955991989',hours:'من 8:00 صباحاً - حتى 7:00 مساءً'};
 app.get('/api/shop', auth, async (req,res)=>res.json((await Shop.findOne({key:'main'}))?.toObject() || defaultShop));
 app.put('/api/shop', auth, async (req,res)=>{ const s={...defaultShop,...req.body}; const saved=await Shop.findOneAndUpdate({key:'main'},{key:'main',name:s.name,address:s.address,phone:s.phone,hours:s.hours},{new:true,upsert:true}); res.json(saved); });
-app.get('/api/report-draft', auth, async (req,res)=>res.json((await Report.findOne({key:'main'}))?.data || {}));
-app.put('/api/report-draft', auth, async (req,res)=>{ await Report.findOneAndUpdate({key:'main'},{key:'main',data:req.body,updatedAt:new Date()},{upsert:true}); res.json({ok:true}); });
+app.get('/api/report-draft', auth, adminOnly, async (req,res)=>res.json((await Report.findOne({key:'main'}))?.data || {}));
+app.put('/api/report-draft', auth, adminOnly, async (req,res)=>{ await Report.findOneAndUpdate({key:'main'},{key:'main',data:req.body,updatedAt:new Date()},{upsert:true}); res.json({ok:true}); });
 
-app.get('/api/backup', auth, async (req,res)=>res.json({version:3,cars:await Car.find().lean(),users:(await User.find()).map(safeUser),shop:(await Shop.findOne({key:'main'}))?.toObject()||defaultShop}));
+app.get('/api/backup', auth, adminOnly, async (req,res)=>res.json({version:3,cars:await Car.find().lean(),users:(await User.find()).map(safeUser),shop:(await Shop.findOne({key:'main'}))?.toObject()||defaultShop}));
 
 app.get(/.*/, (req,res)=>res.sendFile(path.join(__dirname,'index.html')));
 

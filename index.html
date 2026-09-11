@@ -6,24 +6,21 @@
 <meta name="theme-color" content="#11161c">
 <title>أبو كسار</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/login.css?v=3">
 </head>
 <body>
 <div id="login" class="login">
-  <div class="login-car"><img src="assets/mercedes-car.jpg" alt="Mercedes"></div>
   <div class="login-mid">
-    <img class="brand" src="assets/mercedes-brand.jpg" alt="Mercedes">
     <div class="login-box">
-      <h2>تسجيل الدخول</h2>
-      <p class="login-sub">نظام إدارة أبو كسار</p>
-      <label>اسم المستخدم<input id="user" autocomplete="username" placeholder="اسم المستخدم"></label>
-      <label>كلمة المرور<div class="passwrap"><input id="pass" type="password" autocomplete="current-password" placeholder="كلمة المرور"><button type="button" id="showPass" aria-label="إظهار كلمة المرور">◉</button></div></label>
-      <label class="remember"><input id="remember" type="checkbox"> تذكرني</label>
-      <button id="loginBtn" class="silver primary">تسجيل الدخول</button>
+      <span class="login-logo" role="img" aria-label="Mercedes"></span>
+      <h2>أبو كسار</h2>
+      <label class="login-field"><span class="sr-only">اسم المستخدم</span><input id="user" autocomplete="username" placeholder="اسم المستخدم"><span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M5 21v-2a7 7 0 0114 0v2Z"/></svg></span></label>
+      <label class="login-field"><span class="sr-only">كلمة المرور</span><span class="passwrap"><input id="pass" type="password" autocomplete="current-password" placeholder="كلمة المرور"><button type="button" id="showPass" aria-label="إظهار كلمة المرور"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></span><span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3M12 14v3"/></svg></span></label>
+      <label class="remember"><input id="remember" type="checkbox"><span>تذكرني</span></label>
+      <button id="loginBtn" class="silver primary">تسجيل الدخول <span aria-hidden="true">←</span></button>
       <p id="err" class="error"></p>
     </div>
-    <div class="features"><span>⚙<b>إدارة سهلة</b></span><span>⚒<b>خدمة مميزة</b></span><span>✦<b>ثقة وضمان</b></span></div>
   </div>
-  <div class="login-side"><img src="assets/mercedes-emblem.jpg" alt="Mercedes emblem"></div>
 </div>
 
 <div id="app" class="hidden">
